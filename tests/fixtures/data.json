@@ -1,0 +1,21 @@
+{
+  "cars": {
+    "brands": {
+      "ferrari": {
+        "brand_name": "Ferrari",
+        "founded": "1939",
+        "country": "Italy",
+        "models": [
+          "F8 Tributo",
+          "F8 Spider",
+          "Portofino",
+          "812 Superfast",
+          "812 GTS",
+          "SF90 Stradale",
+          "SF90 Spider",
+          "Roma"
+        ]
+      }
+    }
+  }
+}
