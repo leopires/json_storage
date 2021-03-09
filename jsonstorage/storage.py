@@ -1,5 +1,6 @@
 import os
 from json import dump, load, JSONDecodeError
+
 from jsonstorage import InvalidJsonStorage
 
 
