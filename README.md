@@ -28,12 +28,15 @@ This library best fits for:
 ```python
 from jsonstorage import JsonStorage
 
-# Init a new storage.
+# Init a new storage. 
+# The 'path' is where the file will be created after save() is called.
 storage = JsonStorage(path='/tmp/data.json')
 
 # Put some value. In this case, a list of Ferrari models.
-storage.set_value('cards.brands.ferrari', ['360 Modena', 'Enzo', 'F40', 'F50'])
+storage.set_value('cars.brands.ferrari', ['360 Modena', 'Enzo', 'F40', 'F50'])
 
 # Serialize the data into a JSON file.
 storage.save()
+
+models = storage.get_value('cars.brands.ferrari')
 ```
