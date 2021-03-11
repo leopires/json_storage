@@ -1,18 +1,37 @@
+"""This module has the implementation of the jsonstorage.
+
+"""
 import os
 from json import dump, load, JSONDecodeError
 
-from jsonstorage import InvalidJsonStorage
+from jsonstorage.exceptions import InvalidJsonStorage
 
 
-def _check_sting_value(value_name: str, value: str):
+def _check_string_value(value_name: str, value: str) -> None:
+    """This functions if a given string is empty or None.
+
+    :param value_name: The identification of the value. Eg. 'path', 'key'...
+    :type value_name: str
+    :param value: The string value to be checked.
+    :type value: str
+    :raises:
+        ValueError: If the value is a empty string ou None.
+    """
     if not value:
         raise ValueError(f"Invalid {value_name}. Can't be None or empty string.")
 
 
 class JsonStorage:
+    """the classe represents the storage.
 
+    Properties
+    ----------
+    data: dict
+        The data stored.
+
+    """
     def __init__(self, path: str) -> None:
-        _check_sting_value(value_name='file path', value=path)
+        _check_string_value(value_name='file path', value=path)
         self._file_path = path
         if os.path.isfile(path=self._file_path):
             self._load_data()
@@ -31,7 +50,7 @@ class JsonStorage:
         return self._data
 
     def set_value(self, key: str, value: object) -> None:
-        _check_sting_value(value_name='key', value=key)
+        _check_string_value(value_name='key', value=key)
         key_tokens = key.split('.')
         entry = self.data
         while key_tokens:
@@ -43,21 +62,20 @@ class JsonStorage:
             entry = entry[token]
 
     def get_value(self, key: str):
-        _check_sting_value(value_name='key', value=key)
+        _check_string_value(value_name='key', value=key)
         key_tokens = key.split('.')
         entry = self.data
         while key_tokens:
             token = key_tokens.pop(0)
             if entry is None:
                 return None
+            if isinstance(entry, dict):
+                try:
+                    entry = entry[token]
+                except KeyError:
+                    return None
             else:
-                if isinstance(entry, dict):
-                    try:
-                        entry = entry[token]
-                    except KeyError:
-                        return None
-                else:
-                    return entry
+                return entry
         return entry
 
     def save(self, debug: bool = False):
